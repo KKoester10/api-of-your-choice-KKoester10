@@ -2,18 +2,26 @@
 {
     public class Character
     {
+        public int PartyId { get; set; }
+        public virtual Party Party { get; set; }
         public int Id { get; set; }
+        public string PlayerName { get; set; } 
         public string Name { get; set; }
+        public string Class { get; set; }
+        public int Level { get; set; }
+        public string Race { get; set; }
+        public string Allignment { get; set; }
+        public string Background { get; set; }
+        public int ProficiencyBonus { get; set; }
+        public int Experiance { get; set; }
         public int ArmorClass { get; set; }
-        public new CharacterInventory Inventory {get; set;}
+        public int Initiative { get; set; }
         public int HitPoints { get; set; }
         public int Speed { get; set; }
-        public int Experiance { get; set; }
+        public virtual Abilities CharacterAbilities { get; set; }
+        public virtual CharacterInventory CharacterInventory { get; set; }
 
-        public Character()
-        {
-            
-        }
+        
 
        /* public void CreateCharacter()
         {

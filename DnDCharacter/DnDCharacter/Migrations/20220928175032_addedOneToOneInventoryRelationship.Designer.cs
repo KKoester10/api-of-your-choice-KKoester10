@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DnDCharacter.Migrations
 {
     [DbContext(typeof(CharacterContext))]
-    [Migration("20220927223300_INITCharacter")]
-    partial class INITCharacter
+    [Migration("20220928175032_addedOneToOneInventoryRelationship")]
+    partial class addedOneToOneInventoryRelationship
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -79,6 +79,72 @@ namespace DnDCharacter.Migrations
                             Name = "Keb",
                             Speed = 30
                         });
+                });
+
+            modelBuilder.Entity("DnDCharacter.Models.CharacterInventory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CharacterId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ItemName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CharacterId")
+                        .IsUnique();
+
+                    b.ToTable("CharacterInventories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Amount = 150,
+                            CharacterId = 1,
+                            ItemName = "Gold"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Amount = 250,
+                            CharacterId = 2,
+                            ItemName = "Gold"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Amount = 350,
+                            CharacterId = 3,
+                            ItemName = "Gold"
+                        });
+                });
+
+            modelBuilder.Entity("DnDCharacter.Models.CharacterInventory", b =>
+                {
+                    b.HasOne("DnDCharacter.Models.Character", "Character")
+                        .WithOne("CharacterInventory")
+                        .HasForeignKey("DnDCharacter.Models.CharacterInventory", "CharacterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Character");
+                });
+
+            modelBuilder.Entity("DnDCharacter.Models.Character", b =>
+                {
+                    b.Navigation("CharacterInventory")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
