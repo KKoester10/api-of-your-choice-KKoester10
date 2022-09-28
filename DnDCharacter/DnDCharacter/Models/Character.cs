@@ -5,7 +5,7 @@
         public int Id { get; set; }
         public string Name { get; set; }
         public int ArmorClass { get; set; }
-        public Dictionary<string, int> Inventory = new Dictionary<string, int>();
+        public new CharacterInventory Inventory {get; set;}
         public int HitPoints { get; set; }
         public int Speed { get; set; }
         public int Experiance { get; set; }

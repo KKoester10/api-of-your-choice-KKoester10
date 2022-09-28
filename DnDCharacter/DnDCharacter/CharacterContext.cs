@@ -18,9 +18,9 @@ namespace DnDCharacter
         protected override void OnModelCreating(ModelBuilder model)
         {
             model.Entity<Character>().HasData(
-                new Character() {Id = 1, },
-                new Character() { },
-                new Character() { }
+                new Character() { Id = 1, Name = "Bob", HitPoints = 30, Speed = 30, ArmorClass = 30, Experiance = 0, Inventory = {Id = 1,Name = "Gold", Amount = 50 } },
+                new Character() { Id = 2, Name = "Jedidia", HitPoints = 30, Speed = 30, ArmorClass = 30, Experiance = 250, Inventory = { Id = 2, Name = "Gold", Amount = 50 } },
+                new Character() { Id = 3, Name = "Keb", HitPoints = 30, Speed = 30, ArmorClass = 30, Experiance = 150, Inventory = { Id = 3, Name = "Gold", Amount = 50 } }
                 );
         }
     }
