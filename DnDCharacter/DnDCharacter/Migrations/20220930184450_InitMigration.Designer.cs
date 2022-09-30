@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DnDCharacter.Migrations
 {
     [DbContext(typeof(CharacterContext))]
-    [Migration("20220929184316_addedControllerCharacter")]
-    partial class addedControllerCharacter
+    [Migration("20220930184450_InitMigration")]
+    partial class InitMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -30,9 +30,6 @@ namespace DnDCharacter.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("CharacterId")
-                        .HasColumnType("int");
 
                     b.Property<int>("Charisma")
                         .HasColumnType("int");
@@ -54,16 +51,12 @@ namespace DnDCharacter.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CharacterId")
-                        .IsUnique();
-
                     b.ToTable("CharacterAbilities");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            CharacterId = 1,
                             Charisma = 0,
                             Constitution = 0,
                             Dexterity = 0,
@@ -74,7 +67,6 @@ namespace DnDCharacter.Migrations
                         new
                         {
                             Id = 2,
-                            CharacterId = 2,
                             Charisma = 0,
                             Constitution = 0,
                             Dexterity = 0,
@@ -85,7 +77,6 @@ namespace DnDCharacter.Migrations
                         new
                         {
                             Id = 3,
-                            CharacterId = 3,
                             Charisma = 0,
                             Constitution = 0,
                             Dexterity = 0,
@@ -102,6 +93,9 @@ namespace DnDCharacter.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("AbilitiesId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Allignment")
                         .IsRequired()
@@ -125,6 +119,9 @@ namespace DnDCharacter.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("Initiative")
+                        .HasColumnType("int");
+
+                    b.Property<int>("InventoryId")
                         .HasColumnType("int");
 
                     b.Property<int>("Level")
@@ -153,14 +150,13 @@ namespace DnDCharacter.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PartyId");
-
                     b.ToTable("Characters");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
+                            AbilitiesId = 1,
                             Allignment = "Neutral Good",
                             ArmorClass = 30,
                             Background = "Entertainer",
@@ -168,6 +164,7 @@ namespace DnDCharacter.Migrations
                             Experiance = 0,
                             HitPoints = 30,
                             Initiative = 3,
+                            InventoryId = 1,
                             Level = 0,
                             Name = "Bob",
                             PartyId = 1,
@@ -179,6 +176,7 @@ namespace DnDCharacter.Migrations
                         new
                         {
                             Id = 2,
+                            AbilitiesId = 2,
                             Allignment = "Lawful Good",
                             ArmorClass = 30,
                             Background = "Far Traveler",
@@ -186,6 +184,7 @@ namespace DnDCharacter.Migrations
                             Experiance = 250,
                             HitPoints = 30,
                             Initiative = 2,
+                            InventoryId = 2,
                             Level = 2,
                             Name = "Jedidia",
                             PartyId = 1,
@@ -197,6 +196,7 @@ namespace DnDCharacter.Migrations
                         new
                         {
                             Id = 3,
+                            AbilitiesId = 3,
                             Allignment = "Chaotic Evil",
                             ArmorClass = 30,
                             Background = "Soldier",
@@ -204,6 +204,7 @@ namespace DnDCharacter.Migrations
                             Experiance = 150,
                             HitPoints = 30,
                             Initiative = 1,
+                            InventoryId = 3,
                             Level = 5,
                             Name = "Keb",
                             PartyId = 2,
@@ -225,17 +226,11 @@ namespace DnDCharacter.Migrations
                     b.Property<int>("Amount")
                         .HasColumnType("int");
 
-                    b.Property<int>("CharacterId")
-                        .HasColumnType("int");
-
                     b.Property<string>("ItemName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CharacterId")
-                        .IsUnique();
 
                     b.ToTable("CharacterInventories");
 
@@ -244,21 +239,18 @@ namespace DnDCharacter.Migrations
                         {
                             Id = 1,
                             Amount = 150,
-                            CharacterId = 1,
                             ItemName = "Gold"
                         },
                         new
                         {
                             Id = 2,
                             Amount = 250,
-                            CharacterId = 2,
                             ItemName = "Gold"
                         },
                         new
                         {
                             Id = 3,
                             Amount = 350,
-                            CharacterId = 3,
                             ItemName = "Gold"
                         });
                 });
@@ -290,53 +282,6 @@ namespace DnDCharacter.Migrations
                             Id = 2,
                             Name = "well there can be another"
                         });
-                });
-
-            modelBuilder.Entity("DnDCharacter.Models.Abilities", b =>
-                {
-                    b.HasOne("DnDCharacter.Models.Character", "Character")
-                        .WithOne("CharacterAbilities")
-                        .HasForeignKey("DnDCharacter.Models.Abilities", "CharacterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Character");
-                });
-
-            modelBuilder.Entity("DnDCharacter.Models.Character", b =>
-                {
-                    b.HasOne("DnDCharacter.Models.Party", "Party")
-                        .WithMany("Characters")
-                        .HasForeignKey("PartyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Party");
-                });
-
-            modelBuilder.Entity("DnDCharacter.Models.CharacterInventory", b =>
-                {
-                    b.HasOne("DnDCharacter.Models.Character", "Character")
-                        .WithOne("CharacterInventory")
-                        .HasForeignKey("DnDCharacter.Models.CharacterInventory", "CharacterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Character");
-                });
-
-            modelBuilder.Entity("DnDCharacter.Models.Character", b =>
-                {
-                    b.Navigation("CharacterAbilities")
-                        .IsRequired();
-
-                    b.Navigation("CharacterInventory")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("DnDCharacter.Models.Party", b =>
-                {
-                    b.Navigation("Characters");
                 });
 #pragma warning restore 612, 618
         }
