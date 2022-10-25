@@ -297,7 +297,7 @@ namespace DnDCharacter.Migrations
                         .IsRequired();
 
                     b.HasOne("DnDCharacter.Models.Party", "Party")
-                        .WithMany()
+                        .WithMany("characters")
                         .HasForeignKey("PartyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -307,6 +307,11 @@ namespace DnDCharacter.Migrations
                     b.Navigation("Inventory");
 
                     b.Navigation("Party");
+                });
+
+            modelBuilder.Entity("DnDCharacter.Models.Party", b =>
+                {
+                    b.Navigation("characters");
                 });
 #pragma warning restore 612, 618
         }
