@@ -7,62 +7,60 @@ namespace DnDCharacter.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CharacterController : ControllerBase
+    public class PartyController : ControllerBase
     {
         private CharacterContext _db;
 
-        public CharacterController(CharacterContext db)
+        public PartyController(CharacterContext db)
         {
             _db = db;
         }
-        // Checking wether Character Exists or not
-        private bool CharacterExists(int id)
-        {
-            return (_db.Characters?.Any(e => e.Id == id)).GetValueOrDefault();
-        }
-        //Get all Characters
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Character>>> GetCharacters()
-        {
-            if (_db.Characters == null)
-            {
-                return NotFound();
-            }
-            return await _db.Characters.ToListAsync();
-        }
-        
-        // GET: a single character from the dataBase
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Character>> GetCharacter(int id)
-        {
-            if (_db.Characters == null)
-            {
-                return NotFound();
-            }
-            var character = await _db.Characters.FindAsync(id);
 
-            if (character == null)
+        private bool PartyExists(int id)
+        {
+            return (_db.parties?.Any(party => party.Id == id)).GetValueOrDefault();
+        }
+        // GET: this will get all the Parties
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Party>>> GetParties()
+        {
+            if (_db.parties == null)
             {
                 return NotFound();
             }
-            return character;
+            return await _db.parties.ToListAsync();
         }
-        //PUT: update a Single Character
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateASingleCharacter(int id, Character character)
+        //GET: This is getting a single party by its "ID"
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Party>> GetParty(int id)
         {
-            if (id != character.Id)
+            if (_db.parties == null)
+            {
+                return NotFound();
+            }
+            var party = await _db.parties.FindAsync(id);
+            if (party == null)
+            {
+                return NotFound();
+            }
+            return party;
+        }
+        //PUT: Updating a single party
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateASingleParty(int id, Party party)
+        {
+            if (id != party.Id)
             {
                 return BadRequest();
             }
-            _db.Entry(character).State = EntityState.Modified;
+            _db.Entry(party).State = EntityState.Modified;
             try
             {
                 await _db.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CharacterExists(id))
+                if (!PartyExists(id))
                 {
                     return NotFound();
                 }
@@ -76,35 +74,36 @@ namespace DnDCharacter.Controllers
         }
         //POST: Create a Character
         [HttpPost]
-        public async Task<ActionResult<Character>> CreateCharacter(Character character)
+        public async Task<ActionResult<Party>> CreateParty(Party party)
         {
-            if (_db.Characters == null)
+            if (_db.parties == null)
             {
                 return Problem("Entity set 'CharacterContext.Characters'  is null.");
             }
-            _db.Characters.Add(character);
+            _db.parties.Add(party);
             await _db.SaveChangesAsync();
 
-            return CreatedAtAction("GetCharacter", new { id = character.Id }, character);
+            return CreatedAtAction("GetParty", new { id = party.Id }, party);
         }
 
         //Delete a Character
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCharacter(int id)
+        public async Task<IActionResult> DeleteParty(int id)
         {
-            if (_db.Characters == null)
+            if (_db.parties == null)
             {
                 return NotFound();
             }
-            var character = await _db.Characters.FindAsync(id);
-            if (character == null)
+            var party = await _db.parties.FindAsync(id);
+            if (party == null)
             {
                 return NotFound();
             }
-            _db.Characters.Remove(character);
+            _db.parties.Remove(party);
             await _db.SaveChangesAsync();
 
             return NoContent();
         }
+
     }
 }
