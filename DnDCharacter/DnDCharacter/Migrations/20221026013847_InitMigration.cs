@@ -46,7 +46,7 @@ namespace DnDCharacter.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -59,7 +59,6 @@ namespace DnDCharacter.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PartyId = table.Column<int>(type: "int", nullable: false),
                     PlayerName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Class = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -73,6 +72,7 @@ namespace DnDCharacter.Migrations
                     Initiative = table.Column<int>(type: "int", nullable: false),
                     HitPoints = table.Column<int>(type: "int", nullable: false),
                     Speed = table.Column<int>(type: "int", nullable: false),
+                    PartyId = table.Column<int>(type: "int", nullable: false),
                     AbilitiesId = table.Column<int>(type: "int", nullable: false),
                     InventoryId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -125,7 +125,8 @@ namespace DnDCharacter.Migrations
                 values: new object[,]
                 {
                     { 1, "There can only be one" },
-                    { 2, "well there can be another" }
+                    { 2, "well there can be another" },
+                    { 3, "well there can be another another another" }
                 });
 
             migrationBuilder.InsertData(
@@ -136,12 +137,12 @@ namespace DnDCharacter.Migrations
             migrationBuilder.InsertData(
                 table: "Characters",
                 columns: new[] { "Id", "AbilitiesId", "Allignment", "ArmorClass", "Background", "Class", "Experiance", "HitPoints", "Initiative", "InventoryId", "Level", "Name", "PartyId", "PlayerName", "ProficiencyBonus", "Race", "Speed" },
-                values: new object[] { 2, 2, "Lawful Good", 30, "Far Traveler", "Paladin", 250, 30, 2, 2, 2, "Jedidia", 1, "Chris", -1, "Human", 30 });
+                values: new object[] { 2, 2, "Lawful Good", 30, "Far Traveler", "Paladin", 250, 30, 2, 2, 2, "Jedidia", 2, "Chris", -1, "Human", 30 });
 
             migrationBuilder.InsertData(
                 table: "Characters",
                 columns: new[] { "Id", "AbilitiesId", "Allignment", "ArmorClass", "Background", "Class", "Experiance", "HitPoints", "Initiative", "InventoryId", "Level", "Name", "PartyId", "PlayerName", "ProficiencyBonus", "Race", "Speed" },
-                values: new object[] { 3, 3, "Chaotic Evil", 30, "Soldier", "Warlock", 150, 30, 1, 3, 5, "Keb", 2, "Mat", 5, "Tiefling", 30 });
+                values: new object[] { 3, 3, "Chaotic Evil", 30, "Soldier", "Warlock", 150, 30, 1, 3, 5, "Keb", 3, "Mat", 5, "Tiefling", 30 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Characters_AbilitiesId",
