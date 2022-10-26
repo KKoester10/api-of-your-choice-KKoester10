@@ -16,7 +16,7 @@ namespace DnDCharacter.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.9")
+                .HasAnnotation("ProductVersion", "6.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -185,7 +185,7 @@ namespace DnDCharacter.Migrations
                             InventoryId = 2,
                             Level = 2,
                             Name = "Jedidia",
-                            PartyId = 1,
+                            PartyId = 2,
                             PlayerName = "Chris",
                             ProficiencyBonus = -1,
                             Race = "Human",
@@ -205,7 +205,7 @@ namespace DnDCharacter.Migrations
                             InventoryId = 3,
                             Level = 5,
                             Name = "Keb",
-                            PartyId = 2,
+                            PartyId = 3,
                             PlayerName = "Mat",
                             ProficiencyBonus = 5,
                             Race = "Tiefling",
@@ -262,7 +262,6 @@ namespace DnDCharacter.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -279,6 +278,11 @@ namespace DnDCharacter.Migrations
                         {
                             Id = 2,
                             Name = "well there can be another"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "well there can be another another another"
                         });
                 });
 
@@ -297,7 +301,7 @@ namespace DnDCharacter.Migrations
                         .IsRequired();
 
                     b.HasOne("DnDCharacter.Models.Party", "Party")
-                        .WithMany("characters")
+                        .WithMany("Characters")
                         .HasForeignKey("PartyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -311,7 +315,7 @@ namespace DnDCharacter.Migrations
 
             modelBuilder.Entity("DnDCharacter.Models.Party", b =>
                 {
-                    b.Navigation("characters");
+                    b.Navigation("Characters");
                 });
 #pragma warning restore 612, 618
         }
