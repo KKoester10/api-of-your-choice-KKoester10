@@ -32,7 +32,7 @@ namespace DnDCharacter.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ItemName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ItemName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Amount = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -72,9 +72,9 @@ namespace DnDCharacter.Migrations
                     Initiative = table.Column<int>(type: "int", nullable: false),
                     HitPoints = table.Column<int>(type: "int", nullable: false),
                     Speed = table.Column<int>(type: "int", nullable: false),
-                    PartyId = table.Column<int>(type: "int", nullable: false),
-                    AbilitiesId = table.Column<int>(type: "int", nullable: false),
-                    InventoryId = table.Column<int>(type: "int", nullable: false)
+                    PartyId = table.Column<int>(type: "int", nullable: true),
+                    AbilitiesId = table.Column<int>(type: "int", nullable: true),
+                    InventoryId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -83,20 +83,17 @@ namespace DnDCharacter.Migrations
                         name: "FK_Characters_CharacterAbilities_AbilitiesId",
                         column: x => x.AbilitiesId,
                         principalTable: "CharacterAbilities",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Characters_CharacterInventories_InventoryId",
                         column: x => x.InventoryId,
                         principalTable: "CharacterInventories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Characters_parties_PartyId",
                         column: x => x.PartyId,
                         principalTable: "parties",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.InsertData(
