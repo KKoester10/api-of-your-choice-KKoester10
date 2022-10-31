@@ -4,7 +4,7 @@
 
 namespace DnDCharacter.Migrations
 {
-    public partial class InitMigration : Migration
+    public partial class initMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

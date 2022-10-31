@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DnDCharacter.Migrations
 {
     [DbContext(typeof(CharacterContext))]
-    [Migration("20221027150601_InitMigration")]
-    partial class InitMigration
+    [Migration("20221031172841_initMigration")]
+    partial class initMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
