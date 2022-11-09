@@ -46,7 +46,6 @@ namespace DnDCharacter
                     Constitution = 0,
                     Wisdom = 0,
                     Intelligence = 0,
-                    InventoryId =1,
                     PartyId = 1 
                 },
                 new Character() { 
@@ -70,7 +69,6 @@ namespace DnDCharacter
                     Constitution = 0,
                     Wisdom = 0,
                     Intelligence = 0,
-                    InventoryId = 2,
                     PartyId = 2 
                 },
                 new Character() { 
@@ -94,22 +92,28 @@ namespace DnDCharacter
                     Constitution = 0,
                     Wisdom = 0,
                     Intelligence = 0,
-                    InventoryId = 3,
                     PartyId = 3 
                 }
             );
             model.Entity<CharacterInventory>().HasData(
                 new CharacterInventory() { 
                     Id = 1,
-                    
+                    ItemName = "thing",
+                    Amount = 50,
+                    CharacterId = 3
                 },
                 new CharacterInventory() { 
                     Id = 2,
-                    
+                    ItemName = "thing",
+                    Amount = 50,
+                    CharacterId = 3
                 },
-                new CharacterInventory() { 
+                new CharacterInventory() {
                     Id = 3,
-                    
+                    ItemName = "thing",
+                    Amount = 50,
+                    CharacterId = 3
+                   
                 }
             );
             base.OnModelCreating(model);

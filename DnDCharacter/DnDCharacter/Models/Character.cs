@@ -26,7 +26,7 @@
         public virtual Party? Party { get; set; }
     /*    public int? AbilitiesId { get; set; }
         public virtual Abilities? Abilities { get; set; }*/
-        public int? InventoryId { get; set; }
+        /*public int? InventoryId { get; set; }*/
         public virtual List<CharacterInventory>? Inventory { get; set; }
 
     }
