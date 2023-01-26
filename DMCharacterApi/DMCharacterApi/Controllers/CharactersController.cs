@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using DnDCharacter;
-using DnDCharacter.Models;
+using DMCharacterApi;
+using DMCharacterApi.Models;
 
-namespace DnDCharacter.Controllers
+namespace DMCharacterApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -25,6 +25,10 @@ namespace DnDCharacter.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Character>>> GetCharacters()
         {
+          if (_context.Characters == null)
+          {
+              return NotFound();
+          }
             return await _context.Characters.ToListAsync();
         }
 
@@ -32,6 +36,10 @@ namespace DnDCharacter.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Character>> GetCharacter(int id)
         {
+          if (_context.Characters == null)
+          {
+              return NotFound();
+          }
             var character = await _context.Characters.FindAsync(id);
 
             if (character == null)
@@ -78,6 +86,10 @@ namespace DnDCharacter.Controllers
         [HttpPost]
         public async Task<ActionResult<Character>> PostCharacter(Character character)
         {
+          if (_context.Characters == null)
+          {
+              return Problem("Entity set 'CharacterContext.Characters'  is null.");
+          }
             _context.Characters.Add(character);
             await _context.SaveChangesAsync();
 
@@ -88,6 +100,10 @@ namespace DnDCharacter.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCharacter(int id)
         {
+            if (_context.Characters == null)
+            {
+                return NotFound();
+            }
             var character = await _context.Characters.FindAsync(id);
             if (character == null)
             {
@@ -102,7 +118,7 @@ namespace DnDCharacter.Controllers
 
         private bool CharacterExists(int id)
         {
-            return _context.Characters.Any(e => e.Id == id);
+            return (_context.Characters?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using DnDCharacter;
-using DnDCharacter.Models;
+using DMCharacterApi;
+using DMCharacterApi.Models;
 
-namespace DnDCharacter.Controllers
+namespace DMCharacterApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -25,6 +25,10 @@ namespace DnDCharacter.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Party>>> Getparties()
         {
+          if (_context.parties == null)
+          {
+              return NotFound();
+          }
             return await _context.parties.ToListAsync();
         }
 
@@ -32,6 +36,10 @@ namespace DnDCharacter.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Party>> GetParty(int? id)
         {
+          if (_context.parties == null)
+          {
+              return NotFound();
+          }
             var party = await _context.parties.FindAsync(id);
 
             if (party == null)
@@ -78,6 +86,10 @@ namespace DnDCharacter.Controllers
         [HttpPost]
         public async Task<ActionResult<Party>> PostParty(Party party)
         {
+          if (_context.parties == null)
+          {
+              return Problem("Entity set 'CharacterContext.parties'  is null.");
+          }
             _context.parties.Add(party);
             await _context.SaveChangesAsync();
 
@@ -88,6 +100,10 @@ namespace DnDCharacter.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteParty(int? id)
         {
+            if (_context.parties == null)
+            {
+                return NotFound();
+            }
             var party = await _context.parties.FindAsync(id);
             if (party == null)
             {
@@ -102,7 +118,7 @@ namespace DnDCharacter.Controllers
 
         private bool PartyExists(int? id)
         {
-            return _context.parties.Any(e => e.Id == id);
+            return (_context.parties?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

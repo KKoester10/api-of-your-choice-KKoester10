@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using DnDCharacter;
-using DnDCharacter.Models;
+using DMCharacterApi;
+using DMCharacterApi.Models;
 
-namespace DnDCharacter.Controllers
+namespace DMCharacterApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -25,13 +25,21 @@ namespace DnDCharacter.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CharacterInventory>>> GetCharacterInventories()
         {
+          if (_context.CharacterInventories == null)
+          {
+              return NotFound();
+          }
             return await _context.CharacterInventories.ToListAsync();
         }
 
         // GET: api/CharacterInventories/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<CharacterInventory>> GetCharacterInventory(int id)
+        public async Task<ActionResult<CharacterInventory>> GetCharacterInventory(int? id)
         {
+          if (_context.CharacterInventories == null)
+          {
+              return NotFound();
+          }
             var characterInventory = await _context.CharacterInventories.FindAsync(id);
 
             if (characterInventory == null)
@@ -45,7 +53,7 @@ namespace DnDCharacter.Controllers
         // PUT: api/CharacterInventories/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCharacterInventory(int id, CharacterInventory characterInventory)
+        public async Task<IActionResult> PutCharacterInventory(int? id, CharacterInventory characterInventory)
         {
             if (id != characterInventory.Id)
             {
@@ -78,6 +86,10 @@ namespace DnDCharacter.Controllers
         [HttpPost]
         public async Task<ActionResult<CharacterInventory>> PostCharacterInventory(CharacterInventory characterInventory)
         {
+          if (_context.CharacterInventories == null)
+          {
+              return Problem("Entity set 'CharacterContext.CharacterInventories'  is null.");
+          }
             _context.CharacterInventories.Add(characterInventory);
             await _context.SaveChangesAsync();
 
@@ -86,8 +98,12 @@ namespace DnDCharacter.Controllers
 
         // DELETE: api/CharacterInventories/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCharacterInventory(int id)
+        public async Task<IActionResult> DeleteCharacterInventory(int? id)
         {
+            if (_context.CharacterInventories == null)
+            {
+                return NotFound();
+            }
             var characterInventory = await _context.CharacterInventories.FindAsync(id);
             if (characterInventory == null)
             {
@@ -100,9 +116,9 @@ namespace DnDCharacter.Controllers
             return NoContent();
         }
 
-        private bool CharacterInventoryExists(int id)
+        private bool CharacterInventoryExists(int? id)
         {
-            return _context.CharacterInventories.Any(e => e.Id == id);
+            return (_context.CharacterInventories?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

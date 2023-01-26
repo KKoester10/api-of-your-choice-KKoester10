@@ -1,7 +1,8 @@
-﻿using DnDCharacter.Models;
+﻿using DMCharacterApi.Models;
 using Microsoft.EntityFrameworkCore;
+using System.IO;
 
-namespace DnDCharacter
+namespace DMCharacterApi
 {
     public class CharacterContext : DbContext
     {
@@ -20,15 +21,17 @@ namespace DnDCharacter
         protected override void OnModelCreating(ModelBuilder model)
         {
             model.Entity<Party>().HasData(
-                new Party() {Id = 1, Name = "There can only be one"},
-                new Party() {Id = 2, Name = "well there can be another"},
+                new Party() { Id = 1, Name = "There can only be one" },
+                new Party() { Id = 2, Name = "well there can be another" },
                 new Party() { Id = 3, Name = "well there can be another another another" }
             );
 
             model.Entity<Character>().HasData(
-                new Character() { 
-                    Id = 1,PlayerName = "John",
-                    Name = "Bob" ,
+                new Character()
+                {
+                    Id = 1,
+                    PlayerName = "John",
+                    Name = "Bob",
                     Class = "Fighter",
                     Level = 0,
                     Race = "Orc",
@@ -46,9 +49,10 @@ namespace DnDCharacter
                     Constitution = 0,
                     Wisdom = 0,
                     Intelligence = 0,
-                    PartyId = 1 
+                    PartyId = 1
                 },
-                new Character() { 
+                new Character()
+                {
                     Id = 2,
                     PlayerName = "Chris",
                     Name = "Jedidia",
@@ -58,7 +62,7 @@ namespace DnDCharacter
                     Allignment = "Lawful Good",
                     Background = "Far Traveler",
                     ProficiencyBonus = -1,
-                    Initiative = 2 ,
+                    Initiative = 2,
                     HitPoints = 30,
                     Speed = 30,
                     ArmorClass = 30,
@@ -69,9 +73,10 @@ namespace DnDCharacter
                     Constitution = 0,
                     Wisdom = 0,
                     Intelligence = 0,
-                    PartyId = 2 
+                    PartyId = 2
                 },
-                new Character() { 
+                new Character()
+                {
                     Id = 3,
                     PlayerName = "Mat",
                     Name = "Keb",
@@ -92,28 +97,31 @@ namespace DnDCharacter
                     Constitution = 0,
                     Wisdom = 0,
                     Intelligence = 0,
-                    PartyId = 3 
+                    PartyId = 3
                 }
             );
             model.Entity<CharacterInventory>().HasData(
-                new CharacterInventory() { 
+                new CharacterInventory()
+                {
                     Id = 1,
                     ItemName = "thing",
                     Amount = 50,
                     CharacterId = 3
                 },
-                new CharacterInventory() { 
+                new CharacterInventory()
+                {
                     Id = 2,
                     ItemName = "thing",
                     Amount = 50,
                     CharacterId = 3
                 },
-                new CharacterInventory() {
+                new CharacterInventory()
+                {
                     Id = 3,
                     ItemName = "thing",
                     Amount = 50,
                     CharacterId = 3
-                   
+
                 }
             );
             base.OnModelCreating(model);

@@ -1,4 +1,4 @@
-﻿namespace DnDCharacter.Models
+﻿namespace DMCharacterApi.Models
 {
     public class Party
     {

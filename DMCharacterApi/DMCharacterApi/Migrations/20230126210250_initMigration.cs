@@ -2,10 +2,14 @@
 
 #nullable disable
 
-namespace DnDCharacter.Migrations
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
+namespace DMCharacterApi.Migrations
 {
+    /// <inheritdoc />
     public partial class initMigration : Migration
     {
+        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -64,9 +68,9 @@ namespace DnDCharacter.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ItemName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Amount = table.Column<int>(type: "int", nullable: false),
-                    CharacterId = table.Column<int>(type: "int", nullable: false)
+                    ItemName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Amount = table.Column<int>(type: "int", nullable: true),
+                    CharacterId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -75,54 +79,38 @@ namespace DnDCharacter.Migrations
                         name: "FK_CharacterInventories_Characters_CharacterId",
                         column: x => x.CharacterId,
                         principalTable: "Characters",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.InsertData(
                 table: "parties",
                 columns: new[] { "Id", "Name" },
-                values: new object[] { 1, "There can only be one" });
-
-            migrationBuilder.InsertData(
-                table: "parties",
-                columns: new[] { "Id", "Name" },
-                values: new object[] { 2, "well there can be another" });
-
-            migrationBuilder.InsertData(
-                table: "parties",
-                columns: new[] { "Id", "Name" },
-                values: new object[] { 3, "well there can be another another another" });
+                values: new object[,]
+                {
+                    { 1, "There can only be one" },
+                    { 2, "well there can be another" },
+                    { 3, "well there can be another another another" }
+                });
 
             migrationBuilder.InsertData(
                 table: "Characters",
                 columns: new[] { "Id", "Allignment", "ArmorClass", "Background", "Charisma", "Class", "Constitution", "Dexterity", "Experiance", "HitPoints", "Initiative", "Intelligence", "Level", "Name", "PartyId", "PlayerName", "ProficiencyBonus", "Race", "Speed", "Strength", "Wisdom" },
-                values: new object[] { 1, "Neutral Good", 30, "Entertainer", 0, "Fighter", 0, 0, 0, 30, 3, 0, 0, "Bob", 1, "John", 2, "Orc", 30, 0, 0 });
-
-            migrationBuilder.InsertData(
-                table: "Characters",
-                columns: new[] { "Id", "Allignment", "ArmorClass", "Background", "Charisma", "Class", "Constitution", "Dexterity", "Experiance", "HitPoints", "Initiative", "Intelligence", "Level", "Name", "PartyId", "PlayerName", "ProficiencyBonus", "Race", "Speed", "Strength", "Wisdom" },
-                values: new object[] { 2, "Lawful Good", 30, "Far Traveler", 0, "Paladin", 0, 0, 250, 30, 2, 0, 2, "Jedidia", 2, "Chris", -1, "Human", 30, 0, 0 });
-
-            migrationBuilder.InsertData(
-                table: "Characters",
-                columns: new[] { "Id", "Allignment", "ArmorClass", "Background", "Charisma", "Class", "Constitution", "Dexterity", "Experiance", "HitPoints", "Initiative", "Intelligence", "Level", "Name", "PartyId", "PlayerName", "ProficiencyBonus", "Race", "Speed", "Strength", "Wisdom" },
-                values: new object[] { 3, "Chaotic Evil", 30, "Soldier", 0, "Warlock", 0, 0, 150, 30, 1, 0, 5, "Keb", 3, "Mat", 5, "Tiefling", 30, 0, 0 });
+                values: new object[,]
+                {
+                    { 1, "Neutral Good", 30, "Entertainer", 0, "Fighter", 0, 0, 0, 30, 3, 0, 0, "Bob", 1, "John", 2, "Orc", 30, 0, 0 },
+                    { 2, "Lawful Good", 30, "Far Traveler", 0, "Paladin", 0, 0, 250, 30, 2, 0, 2, "Jedidia", 2, "Chris", -1, "Human", 30, 0, 0 },
+                    { 3, "Chaotic Evil", 30, "Soldier", 0, "Warlock", 0, 0, 150, 30, 1, 0, 5, "Keb", 3, "Mat", 5, "Tiefling", 30, 0, 0 }
+                });
 
             migrationBuilder.InsertData(
                 table: "CharacterInventories",
                 columns: new[] { "Id", "Amount", "CharacterId", "ItemName" },
-                values: new object[] { 1, 50, 3, "thing" });
-
-            migrationBuilder.InsertData(
-                table: "CharacterInventories",
-                columns: new[] { "Id", "Amount", "CharacterId", "ItemName" },
-                values: new object[] { 2, 50, 3, "thing" });
-
-            migrationBuilder.InsertData(
-                table: "CharacterInventories",
-                columns: new[] { "Id", "Amount", "CharacterId", "ItemName" },
-                values: new object[] { 3, 50, 3, "thing" });
+                values: new object[,]
+                {
+                    { 1, 50, 3, "thing" },
+                    { 2, 50, 3, "thing" },
+                    { 3, 50, 3, "thing" }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_CharacterInventories_CharacterId",
@@ -135,6 +123,7 @@ namespace DnDCharacter.Migrations
                 column: "PartyId");
         }
 
+        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

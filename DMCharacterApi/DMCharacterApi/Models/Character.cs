@@ -1,9 +1,9 @@
-﻿namespace DnDCharacter.Models
+﻿namespace DMCharacterApi.Models
 {
     public class Character
     {
         public int Id { get; set; }
-        public string? PlayerName { get; set; } 
+        public string? PlayerName { get; set; }
         public string? Name { get; set; }
         public string? Class { get; set; }
         public int Level { get; set; }
@@ -25,6 +25,5 @@
         public int? PartyId { get; set; }
         public virtual Party? Party { get; set; }
         public virtual List<CharacterInventory>? Inventory { get; set; }
-
     }
 }
